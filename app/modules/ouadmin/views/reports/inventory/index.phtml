@@ -14,8 +14,8 @@ $js__default_output_fields = json_encode($default_output_fields);
 
 
 $order_directions = array (
-	'asc'  => 'Ascending' ,
-	'desc' => 'Descending' ,
+	'asc'  => $lang['adminou.showreport.asc'] ,
+	'desc' => $lang['adminou.showreport.desc'] ,
 );
 
 
@@ -85,16 +85,16 @@ EndHtml
 ?>
 
 
-<h1 class="green-bar">Inventory Reporting</h1>
-<p>Customise your item report using the options below.</p>
+<h1 class="green-bar"> <?php echo $lang['adminou.inventory.header'] ?> </h1>
+<p> <?php echo $lang['adminou.inventory.customize'] ?> </p>
 
 
 <form action="<?php echo $this->router()->makeAbsoluteUri('/ouadmin/reports/inventory/show'); ?>" method="post" id="report_form">
 
 
 <fieldset>
-	<legend>Filtering Options</legend>
-	<p class="note">Use these filters to restrict items to those matching the specified properties.</p>
+	<legend> <?php echo $lang['adminou.inventory.filter'] ?> </legend>
+	<p class="note"> <?php echo $lang['adminou.inventory.filternote'] ?> </p>
 	<dl class="form">
 
 		<dt><?php $this->out($lang['ou.label']); ?></dt>
@@ -120,13 +120,13 @@ EndHtml
 
 
 <fieldset>
-	<legend>Reporting Fields</legend>
-	<p class="note">Select which information to report on by adding fields to the <em>Reporting Fields</em> box below.</p>
-	<p class="note">You can re-order the fields using the up/down arrow buttons.</p>
+	<legend> <?php echo $lang['adminou.inventory.fields'] ?> </legend>
+	<p class="note"> <?php echo $lang['adminou.inventory.fieldsnote1'] ?> </p>
+	<p class="note"> <?php echo $lang['adminou.inventory.fieldsnote2'] ?> </p>
 	<table class="layout">
 	<tr>
 		<td>
-			<label for="output" style="display: block;">Reporting Fields</label>
+			<label for="output" style="display: block;"> <?php echo $lang['adminou.inventory.reporting_fields'] ?> </label>
 			<select name="output[]" id="output" size="13" multiple="multiple" style="min-width: 20em;">
 				<?php
 				$available_output_fields = $this->available_output_fields;
@@ -147,7 +147,7 @@ EndHtml
 			<input type="button" name="removeoutput" id="removeoutput" value="&rarr;" />
 		</td>
 		<td>
-			<label for="output" style="display: block;">Available Fields</label>
+			<label for="output" style="display: block;"> <?php echo $lang['adminou.inventory.available_fields'] ?> </label>
 			<select name="available_output[]" id="available_output" size="13" multiple="multiple" style="min-width: 20em;">
 				<?php
 				Ecl_Helper_Html::formOptions($available_output_fields);
@@ -160,13 +160,13 @@ EndHtml
 
 
 <fieldset>
-	<legend>Order By</legend>
-	<p class="note">You can order your results by up to three columns.</p>
-	<p class="note">An item's <em>name</em> is the title shown on the item's details page. Where an item has no "title" field, it uses "manufacturer model" instead.</p>
+	<legend> <?php echo $lang['adminou.inventory.orderby'] ?> </legend>
+	<p class="note"> <?php echo $lang['adminou.inventory.ordernote1'] ?> </p>
+	<p class="note"> <?php echo $lang['adminou.inventory.ordernote2'] ?> </p>
 	<table id="table_orderby">
 	<tr>
 		<td valign="top">
-			<label for="orderby_1">Order By</label>
+			<label for="orderby_1"> <?php echo $lang['adminou.inventory.orderby1'] ?> </label>
 			<select name="orderby[1]" id="orderby_1">
 				<?php Ecl_Helper_Html::formOptions($this->orderby_fields, 'name'); ?>
 			</select>
@@ -176,7 +176,7 @@ EndHtml
 			</select>
 		</td>
 		<td valign="top">
-			<label for="orderby_2">.. Then By</label>
+			<label for="orderby_2"> <?php echo $lang['adminou.inventory.orderby2'] ?> </label>
 			<select name="orderby[2]" id="orderby_2">
 				<?php Ecl_Helper_Html::formOptions(array('' => '') + $this->orderby_fields); ?>
 			</select>
@@ -186,7 +186,7 @@ EndHtml
 			</select>
 		</td>
 		<td valign="top">
-			<label for="orderby_3">.. Finally By</label>
+			<label for="orderby_3"> <?php echo $lang['adminou.inventory.orderby3'] ?> </label>
 			<select name="orderby[3]" id="orderby_3">
 				<?php Ecl_Helper_Html::formOptions(array('' => '') + $this->orderby_fields); ?>
 			</select>
@@ -202,8 +202,8 @@ EndHtml
 
 <div class="button_bar">
 	<?php
-	Ecl_Helper_Html::formSubmit('submitview', 'View Report');
-	Ecl_Helper_Html::formSubmit('submitdownload', 'Download CSV');
+	Ecl_Helper_Html::formSubmit('submitview', $lang['adminou.inventory.view_report']);
+	Ecl_Helper_Html::formSubmit('submitdownload', $lang['adminou.inventory.download_csv']);
 	?>
 </div>
 

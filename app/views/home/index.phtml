@@ -4,19 +4,19 @@ $user = $this->model('user');
 $lang = $this->model('lang');
 
 ?>
-<h1><?php $this->out($this->model('app.title')); ?></h1>
+<h1><?php echo $lang['home.app.title']?></h1>
 
 <?php
 if (!Ecl::isEmpty($this->model('app.intro'))) {
 	?>
-	<p class="note" style="font-size: 1.1em;"><?php echo $this->model('app.intro'); ?></p>
+	<p class="note" style="font-size: 1.1em;"><?php echo $lang['home.app.intro'] ?></p>
 	<?php
 }
 ?>
 
 <ul id="homepage-list" class="cf">
 	<li id="browse-categories">
-		<h2><a href="<?php echo $this->router()->makeAbsoluteUri("/{$lang['cat.route']}/"); ?>">Browse by <?php $this->out($lang['cat.label']); ?></a></h2>
+		<h2><a href="<?php echo $this->router()->makeAbsoluteUri("/{$lang['cat.route']}/"); ?>"><?php $this->out($lang['home.browsebycat']); ?></a></h2>
 		<?php
 		$categories = $this->model('categorystore')->findUsedRanked(5, $user->param('visibility'));
 		if ($categories) {
@@ -38,7 +38,9 @@ if (!Ecl::isEmpty($this->model('app.intro'))) {
 					<?php
 				}
 				?>
-				<li><a href="<?php echo $this->router()->makeAbsoluteUri("/{$lang['cat.route']}/"); ?>">more&hellip;</a></li>
+				<li><a href="<?php echo $this->router()->makeAbsoluteUri("/{$lang['cat.route']}/"); 
+				
+?>"><?php echo $lang['home.more']?>&hellip;</a></li>
 			</ul>
 			<?php
 		}
@@ -48,7 +50,7 @@ if (!Ecl::isEmpty($this->model('app.intro'))) {
 		<?php
 		if ($this->model('app.use_ou_tree')) {
 			?>
-			<h2><a href="<?php echo $this->router()->makeAbsoluteUri('/ou/'); ?>">Browse by <?php $this->out($lang['ou.label']); ?></a></h2>
+			<h2><a href="<?php echo $this->router()->makeAbsoluteUri('/ou/'); ?>"><?php $this->out($lang['home.browsebyou']); ?></a></h2>
 			<?php
 			$ous = $this->model('organisationalunitstore')->findUsedRanked(5, $user->param('visibility'));
 			?>
@@ -65,7 +67,7 @@ if (!Ecl::isEmpty($this->model('app.intro'))) {
 					}
 				}
 				?>
-				<li><a href="<?php echo $this->router()->makeAbsoluteUri("/ou/"); ?>">more&hellip;</a></li>
+				<li><a href="<?php echo $this->router()->makeAbsoluteUri("/ou/"); ?>"><?php echo $lang['home.more']?>&hellip;</a></li>
 			</ul>
 			<?php
 		} else {

@@ -39,10 +39,10 @@ Ecl_Helper_Html::formHidden('session_key', $this->model('user')->getSessionKey()
 <div id="delete_button_container"></div>
 
 
-<h1>Edit Field: <?php $this->out($field->name); ?></h1>
+<h1><?php echo $lang['admin.cf.edit_head'] $this->out($field->name); ?></h1>
 
 
-<p>Here you can edit this field.</p>
+<p> <?php echo $lang['admin.cf.edit_here'] ?> </p>
 <dl class="form">
 
 <dt>Name</dt>

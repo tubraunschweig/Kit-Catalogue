@@ -102,7 +102,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 			if ($this->model('security')->checkItemPermission($item, 'site.item.edit')) {
 				$edit_url = $this->router()->makeAbsoluteUri('/admin/items/edit/'. $item->id);
 				$back_url = base64_encode($this->request()->relativeUri());
-				printf('<a class="admin_link" href="%1$s?backlink=%2$s">edit</a>', $edit_url, $back_url);
+				printf('<a class="admin_link" href="%1$s?backlink=%2$s">%3$s</a>', $edit_url, $back_url, $lang['item.browse.edit']);
 			}
 			?>
 
@@ -116,7 +116,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 					if (!empty($item->short_description)) {
 						$this->out($item->short_description);
 					}
-					?><br /><a href="<?php echo $item_url; ?>">more details &raquo;</a>
+					?><br /><a href="<?php echo $item_url; ?>"> <?php echo $lang['item.label.moredetail'] ?> &raquo;</a>
 				</p>
 
 				<ul class="item-meta">
@@ -200,7 +200,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 
 		function drawField($header, $detail) {
 			if (!empty($detail)) {
-				$header = strtoupper($header);
+//				$header = strtoupper($header);
 				?>
 				<tr>
 					<th><?php echo $header; ?></th>
@@ -234,7 +234,8 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 						)
 					) {
 					?>
-					<a class="enquire-link" href="<?php echo $this->router()->makeAbsoluteUri("/enquiry/{$item->id}?backlink={$back_url}"); ?>"><img src="<?php echo $this->router()->makeAbsoluteUri('/images/system/enquirebutton.gif'); ?>" alt="Enquire Now" /></a>
+					<a class="btn btn-outline-primary float-right" href="<?php echo $this->router()->makeAbsoluteUri("/enquiry/{$item->id}?backlink={$back_url}");?>" role="button" alt="Enquire Now" /><?php echo $lang['item.detail.contact'] ?></a>
+
 					<?php
 				}
 				?>
@@ -252,7 +253,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 							&& (substr($item->manufacturer_website, 0, 8)!='https://') ) {
 								$start_url = 'http://';
 						}
-						$manufacturer_website = sprintf('(<a href="%1$s" target="_blank">manufacturer\'s website</a>)', htmlentities("{$start_url}{$item->manufacturer_website}"));
+						$manufacturer_website = sprintf('(<a href="%1$s" target="_blank">%2$s</a>)', htmlentities("{$start_url}{$item->manufacturer_website}"), $lang['item.form.manufacturer_website']);
 					}
 				}
 				if ( (!empty($manufacturer_website)) && (empty($item->manufacturer)) ) {
@@ -421,7 +422,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 										}
 									}
 								}
-								drawField('', sprintf('<a href="%1$s">%2$s</a>', $enquiry_form_link, 'Enquire about this item'));
+								drawField('', sprintf('<a href="%1$s">%2$s</a>', $enquiry_form_link, $lang['item.link.enquire']));
 							} else {
 								// Contact 1
 								$contact_email = (!empty($item->contact_1_email)) ? $item->contact_1_email : '' ;
@@ -659,7 +660,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 									if ( (isset($custom_fields[$field->id])) && (!empty($custom_fields[$field->id])) ) {
 										if (!$drawn_field) {
 											?>
-											<h2>Additional Fields</h2>
+											<h2><?php echo $lang['item.formsection.additional'] ?></h2>
 											<table class="fields">
 											<?php
 										}
@@ -698,7 +699,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 					$children = null;
 
 
-					printf('<p class="note item-id">Item ID #<span class="meta-item-id">%1$s</span>.</p>', $this->escape($item->id));
+					printf('<p class="note item-id">'.$lang['item.fineprint.id'].' #<span class="meta-item-id">%1$s</span>.</p>', $this->escape($item->id));
 					if (isSensibleDate($item->date_updated)) {
 						printf('<p class="note item-date-updated">%s: %s</p>', $lang['item.label.date_updated'], date($this->model('layout.date_format'), $item->date_updated));
 					}
@@ -742,7 +743,7 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 				if ($categories->count()==0) {
 					if ($this->model('user')->isAnonymous()) {
 						?>
-						<p class="note">There are no publically available categories listed at present. You may have to <a href="<?php echo $this->router()->makeAbsoluteUri('/'); ?>">sign in</a> to browse this catalogue.</p>
+						<p class="note"> <?php echo $lang['notes.category.private'] ?> </p>
 						<?php
 					}
 				} else {
@@ -812,9 +813,9 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 				?>
 
 				<div class="side-bar">
-					<h4>Permanent Link</h4>
+					<h4> <?php echo $lang['item.label.permalink'] ?> </h4>
 					<ul>
-						<li><a href="<?php echo $permalink; ?>">Direct Permalink</a></li>
+						<li><a href="<?php echo $permalink; ?>"> <?php echo $lang['item.label.direct_link']?> </a></li>
 					</ul>
 				</div>
 
@@ -822,8 +823,8 @@ class Kc_Layout extends Ecl_Mvc_Layout_Html {
 				if ( (!$user->isAnonymous()) && (KC__VISIBILITY_PUBLIC == $item->visibility) ) {
 					?>
 					<div class="side-bar">
-						<h4>Visibility</h4>
-						<div style="padding: 3px;">This item is publically visible.</div>
+						<h4> <?php echo $lang['item.label.visibility']?> </h4>
+						<div style="padding: 3px;"> <?php echo $lang['item.visibility.public'] ?> </div>
 					</div>
 					<?php
 				}

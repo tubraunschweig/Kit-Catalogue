@@ -16,7 +16,7 @@ if ($this->model('user')->username != $user->username) {
 
 		$(document).ready( function() {
 
-			var del_button = $('<input type="submit" name="submitdelete" value="Delete User" />');
+			var del_button = $('<input type="submit" name="submitdelete" value="Delete Use" />');
 			del_button.click(function () {
 				return confirm('Please confirm that you want to delete this user.\\n\\nThis operation cannot be undone.');
 			});
@@ -51,21 +51,19 @@ if (!$new_user) {
 <div id="delete_button_container"></div>
 
 
-<h1>Editing: <?php $this->out("{$user->name} ({$user->username})"); ?></h1>
-
-
+<h1><?php echo $lang['admin.useredit.header']; $this->out("{$user->name} ({$user->username})"); ?></h1>
 
 <div class="cf">
 
 	<div class="admin-box">
-		<h3>Change Password</h3>
+		<h3> <?php echo $lang['admin.useredit.changepw'] ?> </h3>
 		<div class="section">
 			<?php
 			if ($this->model('signin.use_ldap')) {
 				?>
-				<p>Kit-Catalogue is currently using LDAP authentication, and the user's LDAP username/password will take precedence.</p>
-				<p>Changing a password here will only be useful if the username and/or password <em>cannot be found</em> in your local Active Directory.</p>
-				<p>The predefined Kit-Catalogue admin account would be an example.</p>
+				<p> <?php echo $lang['admin.useredit.ldap_precedence'] ?> </p>
+				<p> <?php echo $lang['admin.useredit.password_effect'] ?> </p>
+				<p> <?php echo $lang['admin.useredit.admin_example'] ?> </p>
 				<?php
 			}
 
@@ -76,37 +74,37 @@ if (!$new_user) {
 			}
 			?>
 			<dl class="form">
-				<dt><?php Ecl_Helper_Html::formLabel('password', 'New Password'); ?></dt>
+				<dt><?php Ecl_Helper_Html::formLabel('password', $lang['admin.user.label_password'] ); ?></dt>
 				<dd><?php Ecl_Helper_Html::formPassword('password', 20, 50, ''); ?></dd>
 
-				<dt><?php Ecl_Helper_Html::formLabel('confirm_password', 'Confirm New Password'); ?></dt>
+				<dt><?php Ecl_Helper_Html::formLabel('confirm_password', $lang['admin.user.label_password_confirm'] ); ?></dt>
 				<dd><?php Ecl_Helper_Html::formPassword('confirm_password', 20, 50, ''); ?></dd>
 			</dl>
 		</div>
 
 		<div>
-			<?php Ecl_Helper_Html::formSubmit('submitcancel', 'Cancel'); ?>
-			<?php Ecl_Helper_Html::formSubmit('submitsave2', 'Save Changes'); ?>
+			<?php Ecl_Helper_Html::formSubmit('submitcancel', $lang['admin.useredit.cancel'] ); ?>
+			<?php Ecl_Helper_Html::formSubmit('submitsave2', $lang['admin.useredit.save'] ); ?>
 		</div>
 	</div>
 
-	<p>You can edit user details here</p>
-	<p class="note">* Denotes a required field.</p>
+	<p> <?php echo $lang['admin.useredit.details'] ?> </p>
+	<p class="note"> <?php echo $lang['admin.useredit.fineprint'] ?> </p>
 	<?php
 	$this->render('users_snippets_editsubform');
 	?>
 
 	<div style="margin: 0 0 20px 10em;">
-		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.useredit.save']); ?>
 	</div>
 
-	<h3>Permissions</h3>
+	<h3> <?php echo $lang['admin.useredit.permissions'] ?> </h3>
 	<fieldset>
-		<legend>System-wide Permissions</legend>
+		<legend> <?php echo $lang['admin.useredit.systemwide'] ?> </legend>
 		<div class="section">
 			<?php
 			$available_perms = array (
-				KC__AUTH_CANADMIN  => 'System Administrator' ,
+				KC__AUTH_CANADMIN  => $lang['admin.useredit.adm'] ,
 			);
 
 			$current_perms = $this->model('sysauth')->FindAuthsForAgentItem($user->username, 'system');
@@ -142,9 +140,9 @@ if (!$new_user) {
 
 
 	<fieldset>
-		<legend>Specific Permissions</legend>
-		<p class="note">Permissions specific to units within your <?php $this->out(strtolower($lang['ou.label.adminsection'])); ?>.
-		<p class="note">If you grant permission to a higher <?php echo $this->out($ou_label_lower); ?>, it will automatically include all 'child' <?php echo $this->out($ou_plural_lower); ?>.</p>
+		<legend> <?php echo $lang['admin.useredit.specific'] ?> </legend>
+		<p class="note"> <?php echo $lang['admin.useredit.orgspecific'] ?> </p>
+		<p class="note"> <?php echo $lang['admin.useredit.inclusive'] ?> </p>
 
 		<div id="tree" style="padding: 0.4em; background-color: #fff; ">
 			<?php
@@ -214,7 +212,7 @@ if (!$new_user) {
 	</fieldset>
 
 	<div class="button_bar">
-		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.useredit.save']); ?>
 	</div>
 
 </div>

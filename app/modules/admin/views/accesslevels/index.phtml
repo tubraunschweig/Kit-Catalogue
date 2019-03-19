@@ -1,33 +1,36 @@
+<?php
+$lang = $this->model('lang');
+?>
 
-<h1>Administer Access Levels</h1>
+<h1><?php echo $lang['admin.access.header'] ?></h1>
 
 
 <div class="cf">
 
 	<div class="admin-box">
-		<h3>Add a new access level</h3>
+		<h3><?php echo $lang['admin.access.add'] ?></h3>
 		<?php
 		Ecl_Helper_Html::form('accesslevelform', $this->router()->makeAbsoluteUri('/admin/accesslevels/create/'));
 		Ecl_Helper_Html::formHidden('session_key', $this->model('user')->getSessionKey());
 		?>
 		<dl>
-			<dt><?php Ecl_Helper_Html::formLabel('name', 'Access Level Name'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('name', $lang['admin.access.name_label']); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('name', 20, 250); ?></dd>
 		</dl>
 
 		<div>
 			<?php
-			Ecl_Helper_Html::formSubmit('submitadd', 'Add Access Level');
+			Ecl_Helper_Html::formSubmit('submitadd', $lang['admin.access.submit_label']);
 			?>
 		</div>
 	</div>
 
-	<p>Below is the list of access level descriptions available for use in this catalogue.</p>
+	<p><?php echo $lang['admin.access.note'] ?></p>
 
 	<?php
 	if ($this->accesslevels->count()==0) {
 		?>
-		<p class="warning">No access levels have been setup yet.</p>
+		<p class="warning"><?php echo $lang['admin.access.warning'] ?></p>
 		<?php
 	} else {
 		?>

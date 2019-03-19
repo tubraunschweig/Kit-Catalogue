@@ -1,31 +1,34 @@
+<?php 
+$lang = $this->model('lang');
+?>
 
-<h1>Administer Sites</h1>
+<h1><?php echo $lang['admin.sites.header'] ?></h1>
 
 <div class="cf">
 
 
 	<div class="admin-box">
-		<h3>Add a new site</h3>
+		<h3><?php echo $lang['admin.sites.add'] ?></h3>
 		<?php
 		Ecl_Helper_Html::form('siteform', $this->router()->makeAbsoluteUri('/admin/sites/create/'));
 		Ecl_Helper_Html::formHidden('session_key', $this->model('user')->getSessionKey());
 		?>
 		<dl class="form">
-			<dt><?php Ecl_Helper_Html::formLabel('name', 'Campus/Site Name'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('name', $lang['admin.sites.label'] ); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('name', 20, 250); ?></dd>
 		</dl>
 
-		<?php Ecl_Helper_Html::formSubmit('submitadd', 'Add Site'); ?>
+		<?php Ecl_Helper_Html::formSubmit('submitadd', $lang['admin.sites.submit']); ?>
 
 	</div>
 
 
-	<p>Below is the list of the campus sites available for use in this catalogue.</p>
+	<p><?php echo $lang['admin.sites.note'] ?></p>
 
 	<?php
 	if ($this->sites->count()==0) {
 		?>
-		<p class="warning">No sites have been setup yet.</p>
+		<p class="warning"><?php echo $lang['admin.sites.warning'] ?></p>
 		<?php
 	} else {
 		?>

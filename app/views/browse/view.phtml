@@ -2,7 +2,7 @@
 $lang = $this->model('lang');
 
 
-$title = 'Browse Items';
+$title = $lang['item.browse.title'];
 if (!empty($this->main_param)) {
 	$first_uri_param = (isset($this->uri_params[$this->main_param])) ? $this->uri_params[$this->main_param] : '' ;
 	$this->layout()->addBreadcrumb($title, $this->router()->makeAbsoluteUri("/browse/{$first_uri_param}") );
@@ -202,7 +202,7 @@ if ($this->model('security')->canAddItems()) {
 	foreach($this->selected_params as $k => $v) {
 		$presets .= "&preset[$k]=$v";
 	}
-	$editlink = sprintf('<a class="admin_link" href="%1$s?backlink=%2$s%3$s">add an item</a>', $edit_url, $back_url, $presets);
+	$editlink = sprintf('<a class="admin_link" href="%1$s?backlink=%2$s%3$s">%4$s</a>', $edit_url, $back_url, $presets, $lang['item.browse.add_item']);
 } else {
 	$editlink = '';
 }
@@ -221,7 +221,7 @@ echo $editlink;
 
 if (!empty($this->selected_params)) {
 	?>
-	<p>Viewing items matching the following properties:</p>
+	<p> <?php echo $lang['notes.browse.properties']  ?> </p>
 	<ul class="hozmenu selected-list">
 	<?php
 	foreach($this->selected_params as $k => $u) {

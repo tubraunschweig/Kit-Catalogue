@@ -1,57 +1,60 @@
 <?php
+
+$lang = $this->model('lang');
+
 if (!Ecl::isEmpty($this->model('admin.help.manual'))) {
 	?>
 	<div class="help-box">
-		<p>Help with administering and running your catalogue is available here:</p>
+		<p> <?php echo $lang['admin.home.helpbox'] ?> </p>
 		<p><a href="<?php echo $this->model('admin.help.manual'); ?>" target="_blank"><?php $this->out($this->model('admin.help.manual_title')); ?> </a></p>
 	</div>
 	<?php
 }
 ?>
 
-<h1>Administration Options</h1>
+<h1> <?php echo $lang['admin.home.header1'] ?> </h1>
 
 <table class="layout" style="width: 100%;">
 <tr>
 	<td>
 		<div class="white-box">
-			<h4>Item administration</h4>
-			<p class="note">To edit individual items of equipment, browse the site normally and look for <a style="float: none;" class="admin_link" href="#" onclick="return false;">edit</a> links.</p>
+			<h4> <?php echo $lang['admin.home.itemadm'] ?> </h4>
+			<p class="note"> <?php echo $lang['admin.note.edit'] ?> </p>
 			<ul>
-				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/customfields/index/'); ?>">Item Field Customisation</a></li>
+				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/customfields/index/'); ?>"> <?php echo $lang['admin.home.item_field_cust'] ?> </a></li>
 			</ul>
 
 			<ul style="margin-top: 1em;">
-				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/items/edit/new/?backlink='.base64_encode('/admin/')); ?>">Add New Item</a></li>
+				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/items/edit/new/?backlink='.base64_encode('/admin/')); ?>"> <?php echo $lang['admin.home.item_new'] ?> </a></li>
 			</ul>
 
 			<ul style="margin-top: 1em;">
 				<li>
-					<a href="<?php echo $this->router()->makeAbsoluteUri('/admin/items/import/'); ?>">Import CSV</a>
-					<p class="note">Import new items from a CSV file.</p>
+					<a href="<?php echo $this->router()->makeAbsoluteUri('/admin/items/import/'); ?>"> <?php echo $lang['admin.home.import'] ?> </a>
+					<p class="note"> <?php echo $lang['admin.note.import_item'] ?> </p>
 				</li>
 			</ul>
 
 			<ul style="margin-top: 1em;">
 				<li>
-					<a href="<?php echo $this->router()->makeAbsoluteUri('/admin/items/export/'); ?>">Export CSV</a>
-					<p class="note">Export a back-up of all your item data to a CSV file.</p>
+					<a href="<?php echo $this->router()->makeAbsoluteUri('/admin/items/export/'); ?>"> <?php echo $lang['admin.home.export'] ?> </a>
+					<p class="note"> <?php echo $lang['admin.note.export_csv'] ?> </p>
 				</li>
 			</ul>
 		</div>
 
 		<div class="white-box">
-			<h4>Homepage blocks</h4>
-			<p class="note">Customisation of which blocks appear on the homepage</p>
+			<h4> <?php echo $lang['admin.home.hp_header'] ?> </h4>
+			<p class="note"> <?php echo $lang['admin.home.hp_cust'] ?> </p>
 			<ul>
-				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/homepageblocks/index/'); ?>">Homepage blocks</a></li>
+				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/homepageblocks/index/'); ?>"> <?php echo $lang['admin.home.hp_link'] ?> </a></li>
 			</ul>
 		</div>
 	</td>
 	<td>
 		<div class="white-box">
-			<h4>Categorisation</h4>
-			<p class="note">Catalogue metadata</p>
+			<h4> <?php echo $lang['admin.home.cat_header'] ?> </h4>
+			<p class="note"> <?php echo $lang['admin.home.cat_meta'] ?> </p>
 			<ul>
 				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/categories/index/'); ?>"><?php $this->out($this->model()->lang['cat.label.plural']); ?></a></li>
 				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/accesslevels/index/'); ?>"><?php $this->out($this->model()->lang['access.label.plural']); ?></a></li>
@@ -60,7 +63,7 @@ if (!Ecl::isEmpty($this->model('admin.help.manual'))) {
 				<?php } ?>
 			</ul>
 			<br />
-			<p class="note">Locations</p>
+			<p class="note"> <?php echo $lang['admin.home.location'] ?> </p>
 			<ul>
 				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/sites/index/'); ?>"><?php $this->out($this->model()->lang['site.label.plural']); ?></a></li>
 				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/buildings/index/'); ?>"><?php $this->out($this->model()->lang['building.label.plural']); ?></a></li>
@@ -73,18 +76,18 @@ if (!Ecl::isEmpty($this->model('admin.help.manual'))) {
 	</td>
 	<td>
 		<div class="white-box">
-			<h4>Users</h4>
-			<p class="note">User managment</p>
+			<h4> <?php echo $lang['admin.home.user_header'] ?> </h4>
+			<p class="note"> <?php echo $lang['admin.home.user_management'] ?> </p>
 			<ul>
-				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/users/index/'); ?>">Users</a></li>
+				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/users/index/'); ?>"> <?php echo $lang['admin.home.user_link'] ?> </a></li>
 			</ul>
 		</div>
 
 		<div class="white-box">
-			<h4>Reports</h4>
-			<p class="note">Report managment</p>
+			<h4> <?php echo $lang['admin.home.report_header'] ?> </h4>
+			<p class="note"> <?php echo $lang['admin.home.report_management'] ?> </p>
 			<ul>
-				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/reports/index/'); ?>">Reports</a></li>
+				<li><a href="<?php echo $this->router()->makeAbsoluteUri('/admin/reports/index/'); ?>"> <?php echo $lang['admin.home.report_link'] ?> </a></li>
 			</ul>
 		</div>
 	</td>

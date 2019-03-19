@@ -1,5 +1,7 @@
 <?php
 
+$lang = $this->model('lang');
+
 
 $this->layout()->addBreadcrumb("Items for {$this->letter}..", $this->router()->makeAbsoluteUri("/a-z/?letter={$this->letter}"));
 
@@ -14,14 +16,14 @@ if ($this->model('security')->checkAuth(KC__AUTH_CANADMIN)) {
 }
 ?>
 
-<h1>Manufacturer A-Z</h1>
-<p class="note">Equipment and facilities are available for manufacturers starting with the following letters.</p>
+<h1> <?php echo $lang['notes.atoz.label']?> </h1>
+<p class="note"> <?php echo $lang['notes.atoz.list']?> </p>
 
 
 <ul id="atoz" class="cf">
 	<?php
 	$full_alphabet = range('A', 'Z');
-	$full_alphabet[] = 'Other';
+	$full_alphabet[] = $lang['notes.atoz.other'];
 
 	foreach($full_alphabet as $i => $letter) {
 		if ($letter == $this->letter) {

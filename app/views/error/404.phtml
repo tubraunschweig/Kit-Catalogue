@@ -1,12 +1,17 @@
+<?php 
 
-<h1>The requested resource does not exist</h1>
+$lang = $this->model('lang');
 
-<p>Sorry, but the page you tried to view could not be found. It may have been moved or renamed.</p>
+?>
 
-<h2>What Next?</h2>
+<h1> <?php echo $lang['error.404.header'] ?> </h1>
+
+<p> <?php echo $lang['error.404.note'] ?> </p>
+
+<h2> <?php echo $lang['error.404.next'] ?> </h2>
 <ul>
-	<li>If you came from another page on this website, then we may have made a mistake in one of our links.</li>
-	<li>If you typed the link in to your browser, please check the address and its spelling and try again.</li>
-	<li>If you followed a link here from another site it may be that their link is broken.  If you let the site owners know, they may be able to fix the link.</li>
-	<li>Go to the <a href="<?php echo($this->router()->makeAbsoluteUri()); ?>">homepage</a> and begin browsing from there.</li>
+	<li> <?php echo $lang['error.404.listone'] ?> </li>
+	<li> <?php echo $lang['error.404.listtwo'] ?> </li>
+	<li> <?php echo $lang['error.404.listthree'] ?> </li>
+	<li> <?php echo $lang['error.404.listfour'] ?> <a href="<?php echo($this->router()->makeAbsoluteUri()); ?>"> <?php echo $lang['error.404.homepagelink'] ?> </a></li>
 </ul>

@@ -12,7 +12,7 @@ $organisational_units = $this->model('organisationalunitstore')->findTree();
 
 if (0 == $organisational_units->count()) {
 	?>
-	<p class="note">There are no <?php $this->out(strtolower($lang['ou.label.plural'])); ?> available so it is likely this catalogue is empty.</p>
+	<p class="note"> <?php echo $lang['notes.ou.empty']?> </p>
 	<?php
 	return;
 }
@@ -20,7 +20,7 @@ if (0 == $organisational_units->count()) {
 
 
 
-<p>The following is a list of all the <?php echo strtolower($lang['ou.label.plural']); ?> used in this catalogue.</p>
+<p> <?php echo $lang['notes.ou.list'] ?>  </p>
 
 <div id="tree">
 	<?php

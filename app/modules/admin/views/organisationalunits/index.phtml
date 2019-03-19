@@ -168,14 +168,14 @@ $(document).ready( function() {
 ');
 ?>
 
-<h1>Administer <?php $this->out($lang['ou.label.adminsection']); ?></h1>
+<h1><?php echo $lang['admin.ou.header']?></h1>
 
 <?php
 if (!$this->model('app.use_ou_tree')) {
 	?>
 	<div class="feedback_box feedback_warning">
-		<p class="title">The organisational tree is currently disabled for your catalogue.</p>
-		<p>To enable the tree, change your configuration settings to <em>$config['app.use_ou_tree'] = true;</em></p>
+		<p class="title"><?php echo $lang['admin.ou.disabled_title'] ?></p>
+		<p><?php echo $lang['admin.ou.disabled_help'] ?></p>
 	</div>
 	<?php
 }
@@ -184,11 +184,11 @@ if (!$this->model('app.use_ou_tree')) {
 
 <div class="cf">
 
-	<p>Below is the <?php echo strtolower($lang['ou.label.adminsection']); ?> for this catalogue. Click on a unit's name to edit it, or use add button to add another sub-unit.</p>
+	<p> <?php echo $lang['admin.ou.note'] ?> </p>
 
 	<div class="admin-box">
-		<h3>Level Labels</h3>
-		<p>Label the levels of your <?php $this->out(strtolower($lang['ou.label.adminsection'])); ?>.</p>
+		<h3><?php echo $lang['admin.ou.labelh'] ?></h3>
+		<p><?php echo $lang['admin.ou.label_help'] ?></p>
 
 		<form action="<?php echo $this->router()->makeAbsoluteUri('/admin/organisationalunits/labels'); ?>" method="post">
 		<?php
@@ -217,7 +217,7 @@ if (!$this->model('app.use_ou_tree')) {
 						$label_example = '(Not currently used)';
 					} else {
 						$node = $path[$level];
-						$label_example = "(i.e. for \"{$node->name}\")";
+						$label_example = "(".$lang['admin.ou.example']." \"{$node->name}\")";
 					}
 					?>
 					<p class="note" style="margin-left: 4em;"><?php $this->out($label_example); ?></p>
@@ -227,7 +227,7 @@ if (!$this->model('app.use_ou_tree')) {
 		}
 		?>
 		<div class="button_bar">
-			<?php Ecl_Helper_Html::formSubmit('savelabels', 'Save Labels'); ?>
+			<?php Ecl_Helper_Html::formSubmit('savelabels', $lang['admin.ou.safe']); ?>
 		</div>
 		</form>
 	</div>
@@ -236,7 +236,7 @@ if (!$this->model('app.use_ou_tree')) {
 	<?php
 	if (0 == $this->organisationalunits->count()) {
 		?>
-		<p class="warning">No organisational units have been setup yet.</p>
+		<p class="warning"><?php echo $lang['admin.ou.warning'] ?></p>
 		<?php
 	} else {
 		?>
@@ -269,8 +269,8 @@ if (!$this->model('app.use_ou_tree')) {
 
 <div id="modalwindow" class="window">
 
-	<a class="modalwindow_close" href="#" title="close window">close</a>
-	<h3 id="modalwindow_title">Title</h3>
+	<a class="modalwindow_close" href="#" title="close window"><?php echo $lang['admin.ou.close'] ?></a>
+	<h3 id="modalwindow_title"><?php echo $lang['admin.ou.title'] ?></h3>
 	<div id="delete_button_container"></div>
 	<?php
 	Ecl_Helper_Html::form('modalwindow_form', '#');
@@ -281,17 +281,17 @@ if (!$this->model('app.use_ou_tree')) {
 	<p id="modalwindow_desc"></p>
 	<dl class="form">
 
-		<dt><label>Name *</label></dt>
+		<dt><label><?php echo $lang['admin.ou.name'] ?></label></dt>
 		<dd><?php Ecl_Helper_Html::formInput('ou_name', 60, 250, ''); ?></dd>
 
-		<dt><label>URL</label></dt>
+		<dt><label><?php echo $lang['admin.ou.url'] ?></label></dt>
 		<dd><?php Ecl_Helper_Html::formInput('ou_url', 60, 250, ''); ?></dd>
 	</dl>
 
 	<div id="ou_locationsection">
 		<dl class="form">
 
-			<dt><label>Location in Organisation</label></dt>
+			<dt><label><?php echo $lang['admin.ou.location'] ?></label></dt>
 			<dd>
 				<select name="ou_location" id="ou_location">
 					<option value=""> &nbsp; </option>
@@ -301,7 +301,7 @@ if (!$this->model('app.use_ou_tree')) {
 					}
 					?>
 				</select>
-				<p class="note">Changing location will move the <?php $this->out($lower_ou_label); ?> and all its descendents, to beneath the selected <?php $this->out($lower_ou_label); ?>.</p>
+				<p class="note"><?php echo $lang['admin.ou.loc_note'] ?></p>
 			</dd>
 
 		</dl>
@@ -309,7 +309,7 @@ if (!$this->model('app.use_ou_tree')) {
 
 	<div style="margin-top: 2em; text-align: center;">
 		<input type="button" name="modalwindow_cancel" class="modalwindow_close" value="Cancel" />
-		<?php Ecl_Helper_Html::formSubmit('modalwindow_submit', 'Save'); ?>
+		<?php Ecl_Helper_Html::formSubmit('modalwindow_submit', $lang['admin.ou.save'] ); ?>
 	</div>
 	<?php Ecl_Helper_Html::formClose(); ?>
 

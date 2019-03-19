@@ -2,10 +2,8 @@
 $lang = $this->model('lang');
 $user = $this->model('user');
 
-
 $item = $this->item;
 $new_item = empty($item->id);
-
 
 
 $this->layout()->addGlobalJavascript();
@@ -81,11 +79,11 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 <div id="delete_button_container"></div>
 
 
-<h1>Editing: <?php $this->out( ($new_item) ? 'New Item' : $item->name ); ?></h1>
-<div style="margin-bottom: 1em;"><a href="<?php echo $this->backlink; ?>">&laquo; Back to Catalogue</a></div>
+<h1><?php echo $lang['admin.edititem.header_edit']; $this->out( ($new_item) ? $lang['admin.edititem.new_item'] : $item->name ); ?></h1>
+<div style="margin-bottom: 1em;"><a href="<?php echo $this->backlink; ?>">&laquo; <?php echo $lang['admin.edititem.back']?></a></div>
 
 
-<p class="note">* Denotes a required field.</p>
+<p class="note"><?php echo $lang['admin.edititem.required'] ?></p>
 
 <fieldset>
 	<legend><?php $this->out($lang['item.formsection.main']); ?></legend>
@@ -94,11 +92,11 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 	if (!empty($item->date_updated)) {
 		?>
 		<div class="itemedit_sidestatus">
-			<p>Last updated
-				<?php
+			<p><?php echo $lang['admin.edititem.last_updated'];
+				
 				if (!empty($item->last_updated_by)) {
 					?>
-					by <br /><?php $this->out($item->last_updated_by); ?>
+					<br /><?php $this->out($item->last_updated_by); ?>
 					<?php
 				}
 				?>
@@ -110,7 +108,7 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 	if ($item->visibility == KC__VISIBILITY_PUBLIC) {
 		?>
 		<div class="itemedit_sidestatus" style="background-color: #fdd;">
-			<p>This item is<br /><strong>visible to the public</strong>.</p>
+			<p><?php echo $lang['admin.edititem.visible_public'] ?></p>
 		</div>
 		<?php
 	}
@@ -119,13 +117,13 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 	<dl class="form">
 		<dt><?php Ecl_Helper_Html::formLabel('title', $lang['item.form.title'].' *'); ?></dt>
 		<dd>
-			<p class="note">General name of the item. Mandatory if <em>Manufacturer</em> is blank.</p>
+			<p class="note"><?php echo $lang['admin.edititem.name_note'] ?></p>
 			<?php Ecl_Helper_Html::formInput('title', 70, 250, $item->title); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('manufacturer', $lang['item.form.manufacturer'].' *'); ?></dt>
 		<dd>
-			<p class="note">Mandatory if <em>Title</em> is blank.</p>
+			<p class="note"><?php echo $lang['admin.edititem.manufacturer_note'] ?></p>
 			<?php Ecl_Helper_Html::formInput('manufacturer', 40, 100, $item->manufacturer); ?>
 		</dd>
 
@@ -134,13 +132,13 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 
 		<dt><?php Ecl_Helper_Html::formLabel('ou', $lang['ou.label'].' *'); ?></dt>
 		<dd>
-			<p class="note">Where in the organisational tree does this item reside.</p>
+			<p class="note"><?php echo $lang['admin.edititem.ou_note'] ?></p>
 			<?php
 			if (!$this->layout()->renderOUSelect('ou', $item->ou)) {
 				$ou_name = $this->model('organisationalunitstore')->lookupName($item->ou);
 				?>
 				<strong><?php $this->out($ou_name); ?></strong>
-				<br /><span class="note">(only administrators can change an item's <?php $this->out(strtolower($lang['ou.label'])); ?>)</span>
+				<br /><span class="note"><?php echo $lang['admin.edititem.ou_help'] ?></span>
 				<?php
 			}
 			?>
@@ -148,12 +146,12 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 
 		<dt id="changevis"><?php Ecl_Helper_Html::formLabel('visibility', $lang['item.form.visibility'].' *'); ?></dt>
 		<dd>
-			<p class="note">Is the catalogue entry available for public view or just internally?</p>
+			<p class="note"><?php echo $lang['admin.edititem.visibility'] ?></p>
 			<?php
 			$options = array(
 				//KC__VISIBILITY_DRAFT  => 'Draft' ,
-				KC__VISIBILITY_INTERNAL  => 'Internal Only' ,
-				KC__VISIBILITY_PUBLIC    => 'Public' ,
+				KC__VISIBILITY_INTERNAL  => $lang['admin.edititem.internal_only'] ,
+				KC__VISIBILITY_PUBLIC    => $lang['admin.edititem.public'] ,
 			);
 
 			Ecl_Helper_Html::formSelect('visibility', $options, $item->visibility);
@@ -165,7 +163,7 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -175,18 +173,18 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 	<dl class="form">
 		<dt><?php $this->out($lang['item.form.contact_1']); ?> *</dt>
 		<dd>
-			<p class="note">The custodian or primary staff contact.</p>
+			<p class="note"><?php echo $lang['admin.edititem.custodian'] ?></p>
 			<dl class="form">
 
-				<dt><?php Ecl_Helper_Html::formLabel('contact_1_name', 'Name'); ?></dt>
+				<dt><?php Ecl_Helper_Html::formLabel('contact_1_name', $lang['admin.edititem.name_label']); ?></dt>
 				<dd><?php Ecl_Helper_Html::formInput('contact_1_name', 40, 250, $item->contact_1_name); ?></dd>
 
-				<dt>Email *</dt>
+				<dt><?php echo $lang['admin.edititem.mail_label'] ?> *</dt>
 				<dd>
 					<table class="layout">
 					<tr>
 						<td>
-							<label style="display: block;" for="contact_1_email">Select an existing email address</label>
+							<label style="display: block;" for="contact_1_email"><?php echo $lang['admin.edititem.select_mail'] ?></label>
 							<select name="contact_1_email" id="contact_1_email">
 								<?php
 								$options = $this->model('itemstore')->findAllContacts(KC__VISIBILITY_INTERNAL);
@@ -203,7 +201,7 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 							</select>
 						</td>
 						<td id="td_contact1email" style="padding-left: 2em;">
-							<label style="display: block;" for="new_contact_1_email">&hellip;or use a new email address (The "existing email" drop-down must be set to blank)</label>
+							<label style="display: block;" for="new_contact_1_email">&hellip;<?php echo $lang['admin.edititem.existing_mail'] ?></label>
 							<?php
 							Ecl_Helper_Html::formInput('new_contact_1_email', 40, 250, $this->request()->post('new_contact_1_email'));
 							?>
@@ -223,18 +221,18 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 
 		<dt><?php $this->out($lang['item.form.contact_2']); ?></dt>
 		<dd>
-			<p class="note">The secondary staff contact.</p>
+			<p class="note"><?php echo $lang['admin.edititem.secondary_staff'] ?></p>
 			<dl class="form">
 
-				<dt><?php Ecl_Helper_Html::formLabel('contact_2_name', 'Name'); ?></dt>
+				<dt><?php Ecl_Helper_Html::formLabel('contact_2_name', $lang['admin.edititem.name_label']); ?></dt>
 				<dd><?php Ecl_Helper_Html::formInput('contact_2_name', 40, 250, $item->contact_2_name); ?></dd>
 
-				<dt>Email</dt>
+				<dt><?php echo $lang['admin.edititem.mail_label'] ?></dt>
 				<dd>
 					<table class="layout">
 					<tr>
 						<td>
-							<label style="display: block;" for="contact_2_email">Select an existing email address</label>
+							<label style="display: block;" for="contact_2_email"><?php echo $lang['admin.edititem.select_mail'] ?></label>
 							<select name="contact_2_email" id="contact_2_email">
 								<?php
 								$options = $this->model('itemstore')->findAllContacts(KC__VISIBILITY_INTERNAL);
@@ -252,7 +250,7 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 							</select>
 						</td>
 						<td id="td_contact2email" style="padding-left: 2em;">
-							<label style="display: block;" for="new_contact_2_email">&hellip;or use a new email address (The "existing email" drop-down must be set to blank)</label>
+							<label style="display: block;" for="new_contact_2_email">&hellip;<?php echo $lang['admin.edititem.existing_mail'] ?></label>
 							<?php
 							Ecl_Helper_Html::formInput('new_contact_2_email', 40, 250, $this->request()->post('new_contact_2_email'));
 							?>
@@ -270,7 +268,7 @@ Ecl_Helper_Html::formHidden('item_id', $item->id);
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -282,7 +280,7 @@ if ($this->model('admin.item.editors.enabled')) {
 	<fieldset>
 		<legend><?php $this->out($lang['item.formsection.editors']); ?></legend>
 
-		<p class="note">Editors can update an individual item's details, but are not contactable through emails or enquiries.</p>
+		<p class="note"><?php echo $lang['admin.edititem.editor_note']?></p>
 
 		<dl class="form">
 
@@ -290,9 +288,9 @@ if ($this->model('admin.item.editors.enabled')) {
 			if ($this->model('security')->checkItemPermission($item, 'item.editors.edit')) {
 				?>
 
-			<dt>Add New Editors</dt>
+			<dt><?php echo $lang['admin.edititem.add_editor'] ?></dt>
 			<dd>
-				<p class="note">Enter the username of each new editor, one per line.</p>
+				<p class="note"><?php echo $lang['admin.edititem.enter_editornames'] ?></p>
 				<?php
 				Ecl_Helper_Html::formTextarea('new_editors', 20, 3, '');
 				?>
@@ -302,12 +300,12 @@ if ($this->model('admin.item.editors.enabled')) {
 			}
 			?>
 
-			<dt>Current Editors For This Item</dt>
+			<dt><?php echo $lang['admin.edititem.current_editors'] ?></dt>
 			<?php
 			$editors = $this->model('itemeditorstore')->findForItem($item->id);
 			if (0 == $editors->count()) {
 				?>
-				<dd>None listed.</dd>
+				<dd><?php echo $lang['admin.edititem.none'] ?></dd>
 				<?php
 			} else {
 				?>
@@ -315,11 +313,11 @@ if ($this->model('admin.item.editors.enabled')) {
 					<?php
 					if ($this->model('security')->checkItemPermission($item, 'item.editors.edit')) {
 						?>
-						<p class="note">To remove an editor tick the appropriate box.</p>
+						<p class="note"><?php echo $lang['admin.edititem.to_remove_tick'] ?></p>
 						<table class="grid">
 						<tr>
-							<th style="text-align: center;">username</th>
-							<th style="text-align: center;">remove?</th>
+							<th style="text-align: center;"><?php echo $lang['admin.edititem.username'] ?></th>
+							<th style="text-align: center;"><?php echo $lang['admin.edititem.remove'] ?></th>
 						</tr>
 						<?php
 						$i = 0;
@@ -334,7 +332,7 @@ if ($this->model('admin.item.editors.enabled')) {
 						?>
 						<table class="grid">
 						<tr>
-							<th style="text-align: center;">username</th>
+							<th style="text-align: center;"><?php echo $lang['admin.edititem.username'] ?></th>
 						</tr>
 						<?php
 						foreach($editors as $editor) {
@@ -354,7 +352,7 @@ if ($this->model('admin.item.editors.enabled')) {
 	</fieldset>
 
 	<div style="text-align: center;">
-		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 	</div>
 	<?php
 }
@@ -368,66 +366,66 @@ if ($this->model('admin.item.editors.enabled')) {
 
 		<dt><?php Ecl_Helper_Html::formLabel('short_description', $lang['item.form.short_description']); ?></dt>
 		<dd>
-			<p class="note">A short description to show on listings pages or in search results.</p>
+			<p class="note"><?php echo $lang['admin.edititem.short_desc_note'] ?></p>
 			<?php Ecl_Helper_Html::formTextarea('short_description', 80, 2, $item->short_description); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('full_description', $lang['item.form.full_description']); ?></dt>
 		<dd>
-			<p class="note">The full description to show on the detail page.</p>
+			<p class="note"> <?php echo $lang['admin.edititem.full_desc_note'] ?> </p>
 			<?php Ecl_Helper_Html::formTextarea('full_description', 80, 7, $item->full_description); ?>
-			<p class="note" style="text-align: center;">(Use <a target="_blank" href="<?php echo $this->router()->makeAbsoluteUri('/support/help/view/wikitext'); ?>">wiki-text</a> to format your text.)</p>
+			<p class="note" style="text-align: center;"> <?php echo $lang['admin.edititem.wikitext'] ?> </p>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('specification', $lang['item.form.specification']); ?></dt>
 		<dd>
-			<p class="note">Description of the technical specification or operational limits of the equipment. (e.g. Operating temperatures or sample-size restrictions)</p>
+			<p class="note"> <?php echo $lang['admin.edititem.technical_desc'] ?> </p>
 			<?php Ecl_Helper_Html::formTextarea('specification', 80, 3, $item->specification); ?>
-			<p class="note" style="text-align: center;">(Use <a target="_blank" href="<?php echo $this->router()->makeAbsoluteUri('/support/help/view/wikitext'); ?>">wiki-text</a> to format your text.)</p>
+			<p class="note" style="text-align: center;"> <?php echo $lang['admin.edititem.wikitext'] ?> </p>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('upgrades', $lang['item.form.upgrades']); ?></dt>
 		<dd>
-			<p class="note">Any upgrades that are installed.</p>
+			<p class="note"> <?php echo $lang['admin.edititem.upgrades_note'] ?> </p>
 			<?php Ecl_Helper_Html::formTextarea('upgrades', 80, 2, $item->upgrades); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('future_upgrades', $lang['item.form.future_upgrades']); ?></dt>
 		<dd>
-			<p class="note">Any potential upgrades that might be purchased or made available in the future.</p>
+			<p class="note"> <?php echo $lang['admin.edititem.future_upgrades_note'] ?> </p>
 			<?php Ecl_Helper_Html::formTextarea('future_upgrades', 80, 2, $item->future_upgrades); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('manufacturer_website', $lang['item.form.manufacturer_website']); ?></dt>
 		<dd>
-			<p class="note">A specific web page containing the of manufacturer's information about this item, or the manufacturer's main website.</p>
+			<p class="note"> <?php echo $lang['admin.edititem.manufacturer_website_note'] ?> </p>
 			<?php Ecl_Helper_Html::formInput('manufacturer_website', 80, 250, $item->manufacturer_website); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('technique', $lang['item.form.technique']); ?></dt>
 		<dd>
-			<p class="note">What kind of scientific principle, technique or methodology the item uses. (if applicable)</p>
+			<p class="note"> <?php echo $lang['admin.edititem.technique_note'] ?> </p>
 			<?php Ecl_Helper_Html::formInput('technique', 30, 100, $item->technique); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('acronym', $lang['item.form.acronym']); ?></dt>
 		<dd>
-			<p class="note">Any short-hand acronym or abbreviation used to identify the item.</p>
+			<p class="note"> <?php echo $lang['admin.edititem.acronym'] ?> </p>
 			<?php Ecl_Helper_Html::formInput('acronym', 10, 15, $item->acronym); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('keywords', $lang['item.form.keywords']); ?></dt>
 		<dd>
-			<p class="note">Any keywords not mentioned in any of the fields above, but which should include this item in search results.</p>
-			<p class="note">This could also include variations in spelling or terminology (e.g. "multiaxis, multi-axis, multi axis")</p>
+			<p class="note"> <?php echo $lang['admin.edititem.keywords_1'] ?> </p>
+			<p class="note"> <?php echo $lang['admin.edititem.keywords_2'] ?> </p>
 			<?php Ecl_Helper_Html::formInput('keywords', 80, 250, $item->keywords); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('tags', $lang['tag.label.plural']); ?></dt>
 		<dd>
-			<p class="note">Use tags to group different equipment by particular research areas or activity.</p>
-			<p class="note">Tags should be separated by a comma.  e.g. graphene, nanotech</p>
-			<p class="note">Only alphanumeric characters and hyphens can be used in tag names.</p>
+			<p class="note"> <?php echo $lang['admin.edititem.tags_1'] ?> </p>
+			<p class="note"> <?php echo $lang['admin.edititem.tags_2'] ?> </p>
+			<p class="note"> <?php echo $lang['admin.edititem.tags_3'] ?> </p>
 			<?php
 			if ($item->id || $this->saved_ok) {
 				$tags = $this->model('itemstore')->getItemTags($item->id);
@@ -452,7 +450,7 @@ if ($this->model('admin.item.editors.enabled')) {
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -465,8 +463,8 @@ if ($this->model('admin.item.editors.enabled')) {
 		<dd>
 			<?php
 			$options = array(
-				'1' => 'Yes, this item is a parent facility.' ,
-				'0' => 'No, this is just a normal item.' ,
+				'1' => $lang['admin.edititem.parent_1'] ,
+				'0' => $lang['admin.edititem.parent_2'] ,
 			);
 			$selected = (int) $item->is_parent;
 
@@ -489,9 +487,9 @@ if ($this->model('admin.item.editors.enabled')) {
 			<dd>
 				<?php
 				if (empty($options)) {
-					echo('<p>No child items are associated with this facility.</p>');
+					echo('<p>'.$lang['admin.edititem.nochild'].'</p>');
 				} else {
-					echo('<p class="note">Untick a child item to remove it from this facility.</p>');
+					echo('<p class="note">'.$lang['admin.edititem.nochild'].'</p>');
 					if (10 > count($options)) {
 						Ecl_Helper_Html::formCheckboxGrid('children', $options, 2, $selected);
 					} else {
@@ -502,7 +500,7 @@ if ($this->model('admin.item.editors.enabled')) {
 				}
 				?>
 				<br />
-				<p class="note">To add items to this facility, edit the child items individually and select this item as their parent.</p>
+				<p class="note"><?php echo $lang['admin.edititem.addchild'] ?></p>
 			</dd>
 			<?php
 		}
@@ -529,9 +527,9 @@ if ($this->model('admin.item.editors.enabled')) {
 			<dd>
 				<?php
 				if (empty($options)) {
-					echo('<p>No parent facilities have been defined.</p>');
+					echo('<p>'.$lang['admin.edititem.noparents'].'</p>');
 				} else {
-					echo('<p class="note">Untick a parent facility to remove this item from it.</p>');
+					echo('<p class="note">'.$lang['admin.edititem.removefacility'].'</p>');
 					if (10 > count($options)) {
 						Ecl_Helper_Html::formCheckboxGrid('parents', $options, 2, $selected);
 					} else {
@@ -552,7 +550,7 @@ if ($this->model('admin.item.editors.enabled')) {
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -561,7 +559,7 @@ if ($this->model('admin.item.editors.enabled')) {
 
 	<dl class="form">
 
-		<dt>Associated <?php $this->out($lang['cat.label.plural']); ?></dt>
+		<dt><?php echo $lang['admin.edititem.associated'] ?></dt>
 		<dd>
 			<?php
 			if ($new_item) {
@@ -572,7 +570,7 @@ if ($this->model('admin.item.editors.enabled')) {
 			Ecl_Helper_Html::formCheckboxGrid('category', $this->model('categorystore')->findAll()->toAssoc('id', 'name'), 3, $selected);
 			?>
 			&nbsp; &nbsp;
-			<label style="display: block;" for="other_category">&hellip;or use a new <?php $this->out(strtolower($lang['cat.label'])); ?></label>
+			<label style="display: block;" for="other_category">&hellip;<?php echo $lang['admin.edititem.use_new'] ?></label>
 			<?php
 			Ecl_Helper_Html::formInput('other_category', 40, 250, $this->request()->post('other_category'));
 			?>
@@ -583,7 +581,7 @@ if ($this->model('admin.item.editors.enabled')) {
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -594,7 +592,7 @@ if ($this->model('admin.item.editors.enabled')) {
 
 		<dt><?php Ecl_Helper_Html::formLabel('access', $lang['access.label']); ?></dt>
 		<dd>
-			<p class="note">What kind of access is usually permitted to this item?</p>
+			<p class="note"><?php echo $lang['admin.edititem.access_note'] ?></p>
 			<?php
 			$options = (array) $this->model('accesslevelstore')->findAll()->toAssoc('id', 'name');
 			$options = array('0' => '') + $options;
@@ -605,36 +603,38 @@ if ($this->model('admin.item.editors.enabled')) {
 
 		<dt><?php Ecl_Helper_Html::formLabel('usergroup', $lang['item.form.usergroup']); ?></dt>
 		<dd>
-			<p class="note">Short description of the typical user group.  (e.g. "Department" or "Renewable Energy Research Group")</p>
+			<p class="note"><?php echo $lang['admin.edititem.usergroup_note'] ?></p>
 			<?php Ecl_Helper_Html::formInput('usergroup', 30, 250, $item->usergroup); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('availability', $lang['item.form.availability']); ?></dt>
 		<dd>
-			<p class="note">An indication of when this item might be available for use. (e.g. "Wednesday afternoons")</p>
+			<p class="note"><?php echo $lang['admin.edititem.available_note'] ?></p>
 			<?php Ecl_Helper_Html::formInput('availability', 50, 250, $item->availability); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('restrictions', $lang['item.form.restrictions']); ?></dt>
 		<dd>
-			<p class="note">Any restrictions on the use of this item, or specific Health &amp; Safety considerations, etc.</p>
+			<p class="note"><?php echo $lang['admin.edititem.restriction_note'] ?></p>
 			<?php Ecl_Helper_Html::formInput('restrictions', 50, 250, $item->restrictions); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('portability', $lang['item.form.portability']); ?></dt>
 		<dd>
-			<p class="note">For most items the portability will be obvious and need not be entered, but for special cases you can enter portability information here.</p>
+			<p class="note"><?php echo $lang['admin.edititem.portability_note'] ?></p>
 			<?php Ecl_Helper_Html::formInput('portability', 30, 250, $item->portability); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('training_required', $lang['item.form.trainingrequired']); ?></dt>
 		<dd>
-			<p class="note">Is training required before using this item?</p>
+			<p class="note"><?php echo $lang['admin.edititem.training_note'] ?></p>
 			<?php
 			$options = array (
-				'1'   => 'Yes, specialised training is required.' ,
-				'0'   => 'No training required.' ,
-				'n/s' => 'Not specified (not shown on site).' ,
+				'1'   => $lang['admin.edititem.training_1'] ,
+				'0'   => $lang['admin.edititem.training_2'] ,
+				'n/s' => $lang['admin.edititem.training_3'] ,
+				//'0'   => 'No training required.' ,
+				//'n/s' => 'Not specified (not shown on site).' ,
 			);
 
 
@@ -650,12 +650,12 @@ if ($this->model('admin.item.editors.enabled')) {
 
 		<dt><?php Ecl_Helper_Html::formLabel('training_provided', $lang['item.form.trainingprovided']); ?></dt>
 		<dd>
-			<p class="note">Can training on using this item be provided/arranged?</p>
+			<p class="note"><?php echo $lang['admin.edititem.training_provided'] ?></p>
 			<?php
 			$options = array (
-				'1' => 'Yes, we can arrange the appropriate training.' ,
-				'0' => 'No, we cannot arrange training.' ,
-				'n/s' => 'Not specified (not shown on site).' ,
+				'1' => $lang['admin.edititem.training_4'],
+				'0' => $lang['admin.edititem.training_5'] ,
+				'n/s' => $lang['admin.edititem.training_6'],
 			);
 
 			if (is_null($item->training_provided)) {
@@ -670,10 +670,10 @@ if ($this->model('admin.item.editors.enabled')) {
 
 		<dt><?php Ecl_Helper_Html::formLabel('calibrated', $lang['item.form.calibrated']); ?></dt>
 		<dd>
-			<p class="note">Is this item calibrated?</p>
+			<p class="note"><?php echo $lang['admin.edititem.calibrated'] ?></p>
 			<?php
 			Ecl_Helper_Html::formRadio('calibrated', 'calibrated_yes', Item::CALIB_YES, (Item::CALIB_YES === $item->calibrated) );
-			Ecl_Helper_Html::formLabel('calibrated_yes', 'Yes, this item is calibrated.');
+			Ecl_Helper_Html::formLabel('calibrated_yes', $lang['admin.edititem.iscalibrated']);
 			?>
 			<table class="form" style="margin: 0 0 1em 4em;">
 			<tr>
@@ -688,17 +688,17 @@ if ($this->model('admin.item.editors.enabled')) {
 
 			<?php
 			Ecl_Helper_Html::formRadio('calibrated', 'calibrated_no', Item::CALIB_NO, (Item::CALIB_NO === $item->calibrated) );
-			Ecl_Helper_Html::formLabel('calibrated_no', 'No, this item is not calibrated.');
+			Ecl_Helper_Html::formLabel('calibrated_no', $lang['admin.edititem.calibrated_1'] );
 			?>
 			<br />
 			<?php
 			Ecl_Helper_Html::formRadio('calibrated', 'calibrated_auto', Item::CALIB_AUTO, (Item::CALIB_AUTO === $item->calibrated) );
-			Ecl_Helper_Html::formLabel('calibrated_auto', 'Automatic - This item is, or must be, calibrated automatically when used.');
+			Ecl_Helper_Html::formLabel('calibrated_auto', $lang['admin.edititem.calibrated_2']);
 			?>
 			<br />
 			<?php
 			Ecl_Helper_Html::formRadio('calibrated', 'calibrated_notapp', Item::CALIB_NOTAPP, (Item::CALIB_NOTAPP === $item->calibrated) );
-			Ecl_Helper_Html::formLabel('calibrated_notapp', 'Not Applicable (not shown on-site).');
+			Ecl_Helper_Html::formLabel('calibrated_notapp', $lang['admin.edititem.calibrated_3']);
 			?>
 
 		</dd>
@@ -707,7 +707,7 @@ if ($this->model('admin.item.editors.enabled')) {
 		<dd><?php Ecl_Helper_Html::formInput('quantity', 5, 10, $item->quantity); ?></dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('quantity_detail', $lang['item.form.quantity_detail']); ?></dt>
-		<dd><p class="note">If this record describes multiple items, please provide details here.</p>
+		<dd><p class="note"><?php echo $lang['admin.edititem.quantity_note'] ?></p>
 			<?php Ecl_Helper_Html::formInput('quantity_detail', 50, 100, $item->quantity_detail); ?>
 		</dd>
 
@@ -716,7 +716,7 @@ if ($this->model('admin.item.editors.enabled')) {
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -754,7 +754,7 @@ if ($this->model('admin.item.editors.enabled')) {
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -799,7 +799,7 @@ if ($this->model('admin.item.editors.enabled')) {
 					<?php
 					if ($no_options) {
 						?>
-						<label style="display: block;" for="new_supplier"><?php $this->out($lang['item.form.supplier']); ?> name</label>
+						<label style="display: block;" for="new_supplier"><?php echo $lang['admin.edititem.supplier'] ?></label>
 						<?php
 					} else {
 						?>
@@ -831,19 +831,19 @@ if ($this->model('admin.item.editors.enabled')) {
 
 		<dt><?php Ecl_Helper_Html::formLabel('maintenance', $lang['item.form.maintenance']); ?></dt>
 		<dd>
-			<p class="note">Details of any maintenance agreements, contracts or costs.</p>
+			<p class="note"><?php echo $lang['admin.edititem.maintenance'] ?></p>
 			<?php Ecl_Helper_Html::formInput('maintenance', 100, 250, $item->maintenance); ?>
 		</dd>
 
 		<dt><?php Ecl_Helper_Html::formLabel('is_disposed_of', $lang['item.form.is_disposed_of']); ?></dt>
 		<dd>
-			<p class="note">Has this item been disposed of?</p>
+			<p class="note"><?php echo $lang['admin.edititem.disposed'] ?></p>
 			<!-- Such items will remain on the catalogue until archived (see below) -->
 			<?php
 			$options = array(
-				Item::DISPOSED_NO    => 'No, still in service.' ,
-				Item::DISPOSED_SOLD  => 'Yes, sold on.' ,
-				Item::DISPOSED_SCRAP => 'Yes, scrapped.' ,
+				Item::DISPOSED_NO    => $lang['admin.edititem.disposed_1'] ,
+				Item::DISPOSED_SOLD  => $lang['admin.edititem.disposed_2'] ,
+				Item::DISPOSED_SCRAP => $lang['admin.edititem.disposed_3'] ,
 			);
 			Ecl_Helper_Html::formSelect('is_disposed_of', $options, $item->is_disposed_of);
 			?>
@@ -858,12 +858,12 @@ if (false) {
 	?>
 		<dt><?php Ecl_Helper_Html::formLabel('archived', $lang['item.form.archived']); ?></dt>
 		<dd>
-			<p class="note">Archive records are hidden on the catalogue, and are only visible in the administration area.</p>
-			<p class="note">They can be removed regularly by administrators.</p>
+			<p class="note"><?php echo $lang['admin.edititem.archive_note1'] ?></p>
+			<p class="note"><?php echo $lang['admin.edititem.archive_note2'] ?></p>
 			<?php
 			$options = array(
-				'0' => 'No, the record is still active.' ,
-				'1' => 'Yes, this item\'s record is now inactive.' ,
+				'0' => $lang['admin.edititem.archive.active'] ,
+				'1' => $lang['admin.edititem.archive_inactive'] ,
 			);
 			Ecl_Helper_Html::formSelect('disposed_of', $options, $item->disposed_of);
 			?>
@@ -874,7 +874,7 @@ if (false) {
 
 		<dt><?php Ecl_Helper_Html::formLabel('comments', $lang['item.form.comments']); ?></dt>
 		<dd>
-			<p class="note">Comments or further information about this item.</p>
+			<p class="note"><?php echo $lang['admin.edititem.comment_note'] ?></p>
 			<?php Ecl_Helper_Html::formTextarea('comments', 80, 4, $item->comments); ?>
 		</dd>
 
@@ -910,7 +910,7 @@ if (!empty($fields)) {
 
 
 <div style="text-align: center;">
-	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+	<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 </div>
 
 
@@ -1158,7 +1158,7 @@ if (!$new_item) {
 	</fieldset>
 
 	<div style="text-align: center;">
-		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', 'Save Changes'); ?>
+		<?php Ecl_Helper_Html::formSubmitUnique('submitsave', $lang['admin.edititem.save_changes']); ?>
 	</div>
 
 	<?php

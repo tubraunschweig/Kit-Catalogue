@@ -1,5 +1,8 @@
+<?php 
+$lang = $this->model('lang');
+?>
 
-<h1>Administer Users</h1>
+<h1> <?php echo $lang['admin.user.header'] ?> </h1>
 
 <div class="cf">
 
@@ -8,9 +11,10 @@
 	if ($this->model('signin.use_ldap')) {
 		?>
 		<div class="admin-box" style="background-color: #eee;">
-			<p style="font-weight: bold;">You may not need to maintain a full user list.</p>
-			<p>Kit-Catalogue automatically reads user information during the Active Directory/LDAP authentication process.  If you're only using the LDAP authentication, you need only create user accounts for users with extra permissions (e.g. administrators).</p>
-			<p>Standard users should be automatically detected during sign-in, and will have access to the catalogue regardless of whether they exist in the user list of not.</p>
+			<p style="font-weight: bold;"> <?php echo $lang['admin.user.ldapboldnote'] ?> </p>
+			<p> <?php echo $lang['admin.user.ldapnote1'] ?> </p>
+			<p> <?php echo $lang['admin.user.ldapnote2'] ?> </p>
+			<p> <?php echo $lang['admin.user.ldapnotetu'] ?> </p>
 		</div>
 		<?php
 	}
@@ -18,34 +22,34 @@
 
 
 	<div class="admin-box">
-		<h3>Add a new user</h3>
+		<h3> <?php echo $lang['admin.user.add_new'] ?> </h3>
 		<?php
 		Ecl_Helper_Html::form('userform', $this->router()->makeAbsoluteUri('/admin/users/create/'));
 		Ecl_Helper_Html::formHidden('session_key', $this->model('user')->getSessionKey());
 		?>
 		<dl class="form">
-			<dt><?php Ecl_Helper_Html::formLabel('username', 'Username'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('username',  $lang['admin.user.label_username'] ); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('username', 16, 250); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('forename', 'Forename'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('forename',  $lang['admin.user.label_forename'] ); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('forename', 25, 250); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('surname', 'Surname'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('surname', $lang['admin.user.label_surname'] ); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('surname', 25, 250); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('email', 'Email'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('email', $lang['admin.user.label_email'] ); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('email', 25, 250); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('password', 'New Password'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('password', $lang['admin.user.label_password'] ); ?></dt>
 			<dd><?php Ecl_Helper_Html::formPassword('password', 20, 50, ''); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('confirm_password', 'Confirm New Password'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('confirm_password',  $lang['admin.user.label_password_confirm'] ); ?></dt>
 			<dd><?php Ecl_Helper_Html::formPassword('confirm_password', 20, 50, ''); ?></dd>
 		</dl>
 
 		<div>
 			<?php
-			Ecl_Helper_Html::formSubmit('submitadd', 'Add User');
+			Ecl_Helper_Html::formSubmit('submitadd',  $lang['admin.user.add_user_button'] );
 			?>
 		</div>
 		<?php
@@ -54,14 +58,14 @@
 	</div>
 
 
-	<p>Here you can control which users have access to the catalogue system.</p>
+	<p> <?php echo $lang['admin.user.usernote'] ?> </p>
 
 
 	<?php
 	$users = $this->model('userstore')->findAll();
 	if ($users->count()==0) {
 		?>
-		<p class="warning">No users have been setup yet.</p>
+		<p class="warning"> <?php echo $lang['admin.user.no_users'] ?> </p>
 		<?php
 	} else {
 		?>

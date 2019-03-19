@@ -1,23 +1,26 @@
+<?php
+$lang = $this->model('lang');
+?>
 
-<h1>Administer Buildings</h1>
+<h1><?php echo $lang['admin.building.header'] ?></h1>
 
 
 <div class="cf">
 	<div class="admin-box">
-		<h3>Add a new building</h3>
+		<h3><?php echo $lang['admin.building.add'] ?></h3>
 		<?php
 		Ecl_Helper_Html::form('buildingform', $this->router()->makeAbsoluteUri('/admin/buildings/create/'));
 		Ecl_Helper_Html::formHidden('session_key', $this->model('user')->getSessionKey());
 		?>
 		<dl class="form">
 
-			<dt><?php Ecl_Helper_Html::formLabel('code', 'Building Code'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('code', $lang['admin.building.code']); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('code', 10, 10); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('name', 'Name'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('name', $lang['admin.building.name']); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('name', 20, 250); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('site_id', 'Campus Site'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('site_id', $lang['admin.building.site']); ?></dt>
 			<dd>
 				<?php
 				$sites = $this->model('sitestore')->findAll()->toAssoc('id', 'name');
@@ -25,9 +28,9 @@
 				if (empty($sites)) {
 					?>
 					<p class="warning">
-						No campus sites have been setup yet.
+						<?php echo $lang['admin.building.site_warning'] ?>
 						<br /><br />
-						Campus sites are not essential, but we advise taking the time to add them, especially for multi-campus institutions.
+						<?php echo $lang['admin.building.site_note'] ?>
 					</p>
 					<?php
 				} else {
@@ -36,16 +39,16 @@
 				?>
 			</dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('latitude', 'Latitude'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('latitude', $lang['admin.building.lat']); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('latitude', 10, 10); ?></dd>
 
-			<dt><?php Ecl_Helper_Html::formLabel('longitude', 'Longitude'); ?></dt>
+			<dt><?php Ecl_Helper_Html::formLabel('longitude', $lang['admin.building.long']); ?></dt>
 			<dd><?php Ecl_Helper_Html::formInput('longitude', 10, 10); ?></dd>
 
 		</dl>
 
 		<div>
-			<?php Ecl_Helper_Html::formSubmit('submitadd', 'Add New Building'); ?>
+			<?php Ecl_Helper_Html::formSubmit('submitadd', $lang['admin.building.submit']); ?>
 		</div>
 
 		<?php
@@ -54,12 +57,12 @@
 	</div>
 
 
-	<p>Below is the list of the buildings available for use in this catalogue.</p>
+	<p><?php echo $lang['admin.building.note'] ?></p>
 
 	<?php
 	if ($this->buildings->count()==0) {
 		?>
-		<p class="warning">No buildings have been setup yet.</p>
+		<p class="warning"><?php echo $lang['admin.building.warning'] ?></p>
 		<?php
 	} else {
 		?>

@@ -1,10 +1,8 @@
 <?php
 
-
+$lang = $this->model('lang');
 
 $www_root = $this->model('app.www');
-
-
 
 $this->layout()->appendSection('layout.head', '
 	<!-- INSTALL.REWRITE=OK (This string is checked for as part of the installation process) -->
@@ -46,7 +44,7 @@ switch (strtolower($this->request()->get('msg'))) {
 
 ?>
 
-<h1>Sign in to <?php $this->out($this->model('app.title')); ?>.</h1>
+<h1> <?php echo $lang['signin.header.head']  ?></h1>
 <?php
 $use_https = $this->model('app.use_https') ? true : false ;
 ?>
@@ -55,16 +53,16 @@ $use_https = $this->model('app.use_https') ? true : false ;
 <div style="float: left;">
 	<table class="form" style="margin-left: 5em;">
 	<tr>
-		<th><?php Ecl_Helper_Html::formLabel('username', 'Username'); ?></th>
+		<th><?php Ecl_Helper_Html::formLabel('username', $lang['signin.form.username']); ?></th>
 		<td><?php Ecl_Helper_Html::formInput('username', '12', '50'); ?></td>
 	</tr>
 	<tr>
-		<th><?php Ecl_Helper_Html::formLabel('password', 'Password'); ?></th>
+		<th><?php Ecl_Helper_Html::formLabel('password', $lang['signin.form.password']); ?></th>
 		<td><?php Ecl_Helper_Html::formPassword('password', '12', '50'); ?></td>
 	</tr>
 	<tr>
 		<td colspan="2" style="padding-top: 1em; text-align: right;">
-			<?php Ecl_Helper_Html::formSubmit('signin', 'Sign in'); ?>
+			<?php Ecl_Helper_Html::formSubmit('signin', $lang['signin.form.submit']); ?>
 		</td>
 	</tr>
 	</table>
@@ -74,7 +72,7 @@ $use_https = $this->model('app.use_https') ? true : false ;
 if ($this->model('signin.use_shibboleth')) {
 	?>
 	<div class="sso-box">
-		<p>Click the link to access using Single Sign-On.</p>
+		<p> <?php echo $lang['signin.sso.box']  ?></p>
 		<div><a class="sso-link" href="/sso/">Use Single Sign-On</a></div>
 	</div>
 	<?php
@@ -88,11 +86,10 @@ if ($this->model('signin.use_shibboleth')) {
 <br />
 <br />
 
-<h3>Signing in allows you to..</h3>
+<h3> <?php echo $lang['signin.allowsyou.head']?> </h3>
 <ul style="margin-left: 2em; list-style: disc;">
-	<li>Browse and search the full equipment database.</li>
-	<li>Check an item's location.</li>
-	<li>Access manuals, case studies and other supporting documentation.</li>
+	<li> <?php echo $lang['signin.allowsyou.browse']?>  </li>
+	<li> <?php echo $lang['signin.allowsyou.location']?>  </li>
+	<li> <?php echo $lang['signin.allowsyou.manuals']?>  </li>
 </ul>
-
 

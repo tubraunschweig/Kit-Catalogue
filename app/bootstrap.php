@@ -109,10 +109,38 @@ require($config['app.include_root'] .'/library/ecl.php');
 // --------------------------------------------------------------------------------
 // Load Language Config
 
+header('Cache-control: private'); // IE 6 FIX
 
+if(isSet($_GET['lang'])) {
+	$deflang = $_GET['lang'];
+
+	// register the session and set the cookie
+	$_SESSION['lang'] = $deflang;
+	setcookie('lang', $deflang, time() + (3600 * 24 * 30));
+} else if(isSet($_SESSION['lang'])) {
+	$deflang = $_SESSION['lang'];
+} else if(isSet($_COOKIE['lang'])) {
+	$deflang = $_COOKIE['lang'];
+} else {
+	$deflang = 'en';
+}
+
+//require english and german language files
 $lang = Ecl::factory('Ecl_Dictionary');
-require(dirname(__FILE__). '/language.php');
 
+switch ($deflang) {
+  case 'en':
+  require(dirname(__FILE__). '/lang_en.php');
+  break;
+
+  case 'de':
+  require(dirname(__FILE__). '/lang_de.php');
+  break;
+
+  default:
+  require(dirname(__FILE__). '/lang_en.php');
+
+}
 
 $path = $config['app.local_root'].'/local_language.php';
 if (file_exists($path)) { include($path); }

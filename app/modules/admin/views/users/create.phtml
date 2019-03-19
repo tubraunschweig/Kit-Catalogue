@@ -1,12 +1,13 @@
 <?php
 
+$lang = $this->model('lang');
 
 $user = $this->user;
 $new_user = $this->new_user;
 
 
 ?>
-<h1>Create New User</h1>
+<h1> <?php echo $lang['admin.user.add_new'] ?> </h1>
 
 <?php
 Ecl_Helper_Html::form('userform', $this->router()->makeAbsoluteUri('/admin/users/create/'), 'post', 'UTF-8');
@@ -16,7 +17,7 @@ Ecl_Helper_Html::formHidden('session_key', $this->model('user')->getSessionKey()
 <div id="delete_button_container">
 </div>
 
-<p class="note">* Denotes a required field.</p>
+<p class="note"> <?php echo $lang['admin.useredit.fineprint'] ?> </p>
 
 <div class="grid_row">
 
@@ -28,8 +29,8 @@ Ecl_Helper_Html::formHidden('session_key', $this->model('user')->getSessionKey()
 
 
 		<div style="text-align: center;">
-		<?php Ecl_Helper_Html::formSubmit('submitcancel', 'Cancel'); ?>
-			<?php Ecl_Helper_Html::formSubmit('submitsave', 'Save Changes'); ?>
+		<?php Ecl_Helper_Html::formSubmit('submitcancel', $lang['admin.useredit.cancel']); ?>
+			<?php Ecl_Helper_Html::formSubmit('submitsave', $lang['admin.useredit.save']); ?>
 		</div>
 
 	</div>
